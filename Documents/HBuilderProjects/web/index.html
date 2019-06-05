@@ -44,7 +44,7 @@
 						}
 					},
 					/* dataZoom现在用不到 */
-					dataZoom: [ //给x轴设置滚动条  
+					/* dataZoom: [ //给x轴设置滚动条  
 						{
 							start: 0, //默认为0  
 							end: endPercent,
@@ -87,7 +87,7 @@
 							start: 0, //默认为1  
 							end: 50
 						},
-					],
+					], */
 					calculable: true,
 					xAxis: [{
 						type: 'category',
@@ -143,6 +143,23 @@
 						}
 					]
 				};
+				Date.prototype.format = function(fmt) { //author: meizz   
+					var o = {
+						"M+": this.getMonth() + 1, //月份   
+						"d+": this.getDate(), //日   
+						"h+": this.getHours(), //小时   
+						"m+": this.getMinutes(), //分   
+						"s+": this.getSeconds(), //秒   
+						"q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+						"S": this.getMilliseconds() //毫秒   
+					};
+					if (/(y+)/.test(fmt))
+						fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+					for (var k in o)
+						if (new RegExp("(" + k + ")").test(fmt))
+							fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+					return fmt;
+				}
 
 				function addData() {
 					/* 删除第一个元素 */
@@ -152,7 +169,8 @@
 					/* 添加一个元素 */
 					option.series[0].data.push(Math.round(Math.random() * 10));
 					option.series[1].data.push(Math.round(Math.random() * 10));
-					option.xAxis[0].data.push(new Date());
+					option.xAxis[0].data.push(new Date().format("yyyy-MM-dd HH:mm:ss"));
+					console.log(option.xAxis[0].data.length)
 					init.setOption(option);
 				}
 				init.setOption(option);
@@ -163,6 +181,6 @@
 		</script>
 	</head>
 	<body>
-		<div id="main" style="width: 600px; height: 400px;"></div>
+		<div id="main" style="width: 800px; height: 400px;"></div>
 	</body>
 </html>
