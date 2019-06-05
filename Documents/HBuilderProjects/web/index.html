@@ -99,6 +99,8 @@
 				function addData(){
 					option.series[0].data.push(Math.round(Math.random()*10));
 					option.series[1].data.push(Math.round(Math.random()*10));
+					option.xAxis[0].data.push(new Date().getSeconds());
+					init.setOption(option);
 				}
 				init.setOption(option);
 				setInterval(function(){
